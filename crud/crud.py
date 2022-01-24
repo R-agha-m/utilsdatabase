@@ -1,7 +1,10 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
-from stg import report
+try:
+    from ..stg import STG
+except ImportError:
+    from stg import STG
 # from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
