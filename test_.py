@@ -6,7 +6,11 @@ from sys import path as sys_path
 
 
 from crud.crud import Crud
-from .connection_string import create_connection_string
+try:
+    from .connection_string import create_connection_string
+except ImportError:
+    from connection_string import create_connection_string
+
 from tests.models import base
 
 
