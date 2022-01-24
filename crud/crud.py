@@ -11,12 +11,12 @@ except ImportError:
 class Crud:
     def __init__(self, **kwargs):
 
-        self.connection_string = kwargs["connection_string"]
-        self.encoding = kwargs.get("encoding", 'utf-8')
-        self.pool_size = kwargs.get("pool_size", 10),
-        self.max_overflow = kwargs.get("max_overflow", 20),
-        self.pool_recycle = kwargs.get("pool_recycle", 3600)
-        self.base = kwargs.get("base", None)
+        self.connection_string = kwargs.get("connection_string", kwargs['CONNECTION_STRING'])
+        self.encoding = kwargs.get("encoding", kwargs.get("ENCODING", 'utf-8'))
+        self.pool_size = kwargs.get("pool_size", kwargs.get("POOL_SIZE", 10))
+        self.max_overflow = kwargs.get("max_overflow", kwargs.get("MAX_OVERFLOW", 20))
+        self.pool_recycle = kwargs.get("pool_recycle", kwargs.get("POOL_RECYCLE", 3600))
+        self.base = kwargs.get("base", kwargs.get("BASE", None))
 
         self.engine = None
         self.session = None
