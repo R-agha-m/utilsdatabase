@@ -1,16 +1,35 @@
 from os import environ
 from utils_logging.get_or_create_logger import get_or_create_logger
 from utils_common.detect_boolean import detect_boolean
+from utils_common.global_stg_loader import global_stg_loader
 
-# todo: when a SETTING VARIABLE is not in global setting module and calculated in this module, it should be printed
 
-# ========================================================================================================= debug mode
-DEBUG_MODE = detect_boolean(
-    environ.get("DEBUG_MODE",
-                False))
+GlobalStg = global_stg_loader()
 
-# ============================================================================================================= logging
-report = get_or_create_logger(
-    destinations=("console",),
-    level=10 if DEBUG_MODE else 20
-)
+
+class LocalStg:
+    @property
+    def DEBUG_MODE(self):
+        return detect_boolean(
+            environ.get("DEBUG_MODE",
+                        True))
+
+    @property
+    def report(self):
+        print("local")
+        return get_or_create_logger(
+            destinations=("console",),
+            level=10 if self.DEBUG_MODE else 20
+        )
+
+
+class StgClass(GlobalStg, LocalStg):
+    pass
+
+
+STG = StgClass()
+report = STG.report
+
+if __name__ == "__main__":
+    print(STG.DEBUG_MODE)
+    print(STG.report)

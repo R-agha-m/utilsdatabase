@@ -1,26 +1,20 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
-from db.models import base
 from traceback import format_exc
-from utils_db import lstg
-from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
+from stg import report
+# from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
 class Crud:
-    def __init__(
-            self,
-            connection_string,
-            encoding='utf-8',
-            pool_size=10,
-            max_overflow=20,
-            pool_recycle=3600
-    ):
+    def __init__(self, **kwargs):
 
-        self.connection_string = connection_string
-        self.encoding = encoding
-        self.pool_size = pool_size,
-        self.max_overflow = max_overflow,
-        self.pool_recycle = pool_recycle
+        self.connection_string = kwargs["connection_string"]
+        self.encoding = kwargs.get("encoding", 'utf-8')
+        self.pool_size = kwargs.get("pool_size", 10),
+        self.max_overflow = kwargs.get("max_overflow", 20),
+        self.pool_recycle = kwargs.get("pool_recycle", 3600)
+        self.base = kwargs.get("base", None)
+
         self.engine = None
         self.session = None
 
@@ -39,15 +33,13 @@ class Crud:
         self.session = Session(bind=self.engine)
 
     def create_tables(self):
-        for key in base.metadata.tables.keys():
+        for key in self.base.metadata.tables.keys():
             if not inspect(self.engine).has_table(key):
-                base.metadata.create_all(self.engine)
+                self.base.metadata.create_all(self.engine)
 
-    def insert(
-            self,
-            instances,
-            refresh=False
-    ):
+    def insert(self,
+               instances,
+               refresh=False):
         try:
             self.session.add(instances)
             self.session.commit()
@@ -56,7 +48,7 @@ class Crud:
                 self.session.refresh(instances)
             return instances
         except Exception:
-            lstg.report.warning(format_exc())
+            report.warning(format_exc())
             self.session.rollback()
             raise
 
@@ -87,13 +79,12 @@ class Crud:
         else:
             raise
 
-    @manage_exceptions_decorator(report_traceback=False)
+    # @manage_exceptions_decorator(report_traceback=False)
     def __del__(self):
         self.close_session()
         self.close_all_connections()
 
     def close_session(self):
-        lstg.report.debug("")
         try:
             self.session.close()
         except Exception:
@@ -102,7 +93,6 @@ class Crud:
             self.session = None
 
     def close_all_connections(self):
-        lstg.report.debug("")
         try:
             self.engine.dispose()
         except Exception:

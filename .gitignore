@@ -12,3 +12,9 @@ microsoft_reward_bot.spec
 **/__pycache__/**
 desktop.ini
 *.log
+utils_logging/
+utils_common/
+**.sqlite3
+global_stg.py
+my_test.py
+
