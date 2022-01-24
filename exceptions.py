@@ -1,4 +1,4 @@
-from ..exception import ProjectBaseException
+from utils_common.exception import ProjectBaseException
 
 
 class UnsupportedDataType(ProjectBaseException):

@@ -2,43 +2,43 @@ from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from db.models import base
 from traceback import format_exc
-from stg import report
-import stg
-from ..manage_exceptions_decorator import manage_exceptions_decorator
+from utils_db import lstg
+from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
 class Crud:
     def __init__(
-
             self,
-            connection_string=None
+            connection_string,
+            encoding='utf-8',
+            pool_size=10,
+            max_overflow=20,
+            pool_recycle=3600
     ):
-        report.debug("")
-        self.connection_string = \
-            connection_string or \
-            stg.MAIN_DATABASE['CONNECTION_STRING']
+
+        self.connection_string = connection_string
+        self.encoding = encoding
+        self.pool_size = pool_size,
+        self.max_overflow = max_overflow,
+        self.pool_recycle = pool_recycle
         self.engine = None
         self.session = None
 
     def initiate(self):
-        report.debug("")
         self.create_engine()
         self.create_session()
         self.create_tables()
 
     def create_engine(self):
-        report.debug("")
         self.engine = create_engine(
             url=self.connection_string,
-            encoding=stg.MAIN_DATABASE['ENCODING']
+            encoding=self.encoding
         )
 
     def create_session(self):
-        report.debug("")
         self.session = Session(bind=self.engine)
 
     def create_tables(self):
-        report.debug("")
         for key in base.metadata.tables.keys():
             if not inspect(self.engine).has_table(key):
                 base.metadata.create_all(self.engine)
@@ -56,7 +56,7 @@ class Crud:
                 self.session.refresh(instances)
             return instances
         except Exception:
-            report.warning(format_exc())
+            lstg.report.warning(format_exc())
             self.session.rollback()
             raise
 
@@ -93,7 +93,7 @@ class Crud:
         self.close_all_connections()
 
     def close_session(self):
-        report.debug("")
+        lstg.report.debug("")
         try:
             self.session.close()
         except Exception:
@@ -102,7 +102,7 @@ class Crud:
             self.session = None
 
     def close_all_connections(self):
-        report.debug("")
+        lstg.report.debug("")
         try:
             self.engine.dispose()
         except Exception:
