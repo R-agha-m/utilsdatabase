@@ -1,3 +1,3 @@
-# from .crud import Crud
-#
-# __all__ = ("Crud", )
+from .crud import Crud
+
+__all__ = ("Crud", )
