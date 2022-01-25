@@ -1,16 +1,16 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
+from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
+
 try:
-    from ..stg import STG
+    from ..stg import report
 except ImportError:
-    from stg import STG
-# from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
+    from stg import report
 
 
 class Crud:
     def __init__(self, **kwargs):
-
         self.connection_string = kwargs.get("connection_string") or kwargs['CONNECTION_STRING']
         self.encoding = kwargs.get("encoding") or kwargs.get("ENCODING", 'utf-8')
         self.pool_size = kwargs.get("pool_size") or kwargs.get("POOL_SIZE", 10)
@@ -82,7 +82,7 @@ class Crud:
         else:
             raise
 
-    # @manage_exceptions_decorator(report_traceback=False)
+    @manage_exceptions_decorator(report_traceback=False)
     def __del__(self):
         self.close_session()
         self.close_all_connections()
