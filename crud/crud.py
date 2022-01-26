@@ -1,12 +1,13 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
-from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 try:
     from ..stg import report
 except ImportError:
     from stg import report
+
+from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
 class Crud:
@@ -46,10 +47,18 @@ class Crud:
         try:
             self.session.add(instances)
             self.session.commit()
-            self.session.flush()
             if refresh:
                 self.session.refresh(instances)
             return instances
+        except Exception:
+            report.warning(format_exc())
+            self.session.rollback()
+            raise
+
+    def commit(self):
+        try:
+            self.session.commit()
+            return
         except Exception:
             report.warning(format_exc())
             self.session.rollback()
