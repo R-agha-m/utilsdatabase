@@ -3,15 +3,17 @@ from sqlalchemy.orm import Session
 from traceback import format_exc
 
 try:
-    from ..stg import report
+    from ..stg import report, STG
 except ImportError:
-    from stg import report
+    from stg import report, STG
 
 from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
 class Crud:
     def __init__(self, **kwargs):
+        if not kwargs:
+            kwargs.update(STG.MAIN_DB)
         self.connection_string = kwargs.get("connection_string") or kwargs['CONNECTION_STRING']
         self.encoding = kwargs.get("encoding") or kwargs.get("ENCODING", 'utf-8')
         self.pool_size = kwargs.get("pool_size") or kwargs.get("POOL_SIZE", 10)
