@@ -113,3 +113,9 @@ class Crud:
             print(format_exc())
         else:
             self.engine = None
+
+
+def crud_creator(**kwargs):
+    crud = Crud(**kwargs)
+    crud.initiate()
+    return {"crud": crud}
