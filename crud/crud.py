@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
+from utils_common.repetition_decorator import repetition_decorator
 
 try:
     from ..stg import report, STG
@@ -21,22 +22,34 @@ class Crud:
         self.pool_recycle = kwargs.get("pool_recycle") or kwargs.get("POOL_RECYCLE", 3600)
         self.base = kwargs.get("base") or kwargs.get("BASE", None)
 
-        self.engine = None
-        self.session = None
+        self._engine = None
+        self._session = None
+
+    @property
+    def engine(self):
+        if self._engine is None:
+            self.create_engine()
+        return self._engine
+
+    def create_engine(self):
+        self._engine = create_engine(
+            url=self.connection_string,
+            encoding=self.encoding
+        )
+
+    @property
+    def session(self):
+        if self._session is None:
+            self.create_session()
+        return self._session
+
+    def create_session(self):
+        self._session = Session(bind=self.engine)
 
     def initiate(self):
         self.create_engine()
         self.create_session()
         self.create_tables()
-
-    def create_engine(self):
-        self.engine = create_engine(
-            url=self.connection_string,
-            encoding=self.encoding
-        )
-
-    def create_session(self):
-        self.session = Session(bind=self.engine)
 
     def create_tables(self):
         for key in self.base.metadata.tables.keys():
@@ -57,10 +70,13 @@ class Crud:
             self.session.rollback()
             raise
 
+    @repetition_decorator(repetition=10,
+                          caught_exceptions=(Exception,),
+                          raised_exceptions=(),
+                          sleep_between_each=0.5)
     def commit(self):
         try:
-            self.session.commit()
-            return
+            return self.session.commit()
         except Exception:
             report.warning(format_exc())
             self.session.rollback()
