@@ -52,9 +52,12 @@ class Crud:
         self.create_tables()
 
     def create_tables(self):
-        for key in self.base.metadata.tables.keys():
-            if not inspect(self.engine).has_table(key):
-                self.base.metadata.create_all(self.engine)
+        try:
+            for key in self.base.metadata.tables.keys():
+                if not inspect(self.engine).has_table(key):
+                    self.base.metadata.create_all(self.engine)
+        except Exception:
+            report.critical(format_exc())
 
     def insert(self,
                instances,

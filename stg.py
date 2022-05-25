@@ -1,6 +1,7 @@
 from os import environ
 from utils_common.global_stg_loader import global_stg_loader
 
+
 GlobalStg = global_stg_loader(current_stg_address=__file__,
                               stg_class_name="LocalStg")
 
