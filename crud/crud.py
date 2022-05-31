@@ -2,12 +2,7 @@ from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
 from utils_common.repetition_decorator import repetition_decorator
-
-try:
-    from ..stg import report, STG
-except ImportError:
-    from stg import report, STG
-
+from stg import report, STG
 from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
@@ -112,26 +107,26 @@ class Crud:
         else:
             raise
 
-    @manage_exceptions_decorator(report_traceback=False)
-    def __del__(self):
-        self.close_session()
-        self.close_all_connections()
-
-    def close_session(self):
-        try:
-            self.session.close()
-        except Exception:
-            print(format_exc())
-        else:
-            self.session = None
-
-    def close_all_connections(self):
-        try:
-            self.engine.dispose()
-        except Exception:
-            print(format_exc())
-        else:
-            self.engine = None
+    # @manage_exceptions_decorator(report_traceback=False)
+    # def __del__(self):
+    #     self.close_session()
+    #     self.close_all_connections()
+    #
+    # def close_session(self):
+    #     try:
+    #         self.session.close()
+    #     except Exception:
+    #         print(format_exc())
+    #     else:
+    #         self.session = None
+    #
+    # def close_all_connections(self):
+    #     try:
+    #         self.engine.dispose()
+    #     except Exception:
+    #         print(format_exc())
+    #     else:
+    #         self.engine = None
 
 
 def crud_creator(**kwargs):

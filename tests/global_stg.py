@@ -4,7 +4,7 @@ from utils_logging.get_or_create_logger import get_or_create_logger
 from utils_common.detect_boolean import detect_boolean
 
 
-class LocalStg:
+class Setting:
     @property
     def DEBUG_MODE(self):
         return detect_boolean(
