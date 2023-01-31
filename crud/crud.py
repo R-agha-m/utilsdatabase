@@ -2,20 +2,17 @@ from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session
 from traceback import format_exc
 from utils_common.repetition_decorator import repetition_decorator
-from stg import report, STG
-from utils_common.manage_exceptions_decorator import manage_exceptions_decorator
 
 
 class Crud:
     def __init__(self, **kwargs):
-        if not kwargs:
-            kwargs.update(STG.MAIN_DB)
-        self.connection_string = kwargs.get("connection_string") or kwargs['CONNECTION_STRING']
-        self.encoding = kwargs.get("encoding") or kwargs.get("ENCODING", 'utf-8')
-        self.pool_size = kwargs.get("pool_size") or kwargs.get("POOL_SIZE", 10)
-        self.max_overflow = kwargs.get("max_overflow") or kwargs.get("MAX_OVERFLOW", 20)
-        self.pool_recycle = kwargs.get("pool_recycle") or kwargs.get("POOL_RECYCLE", 3600)
-        self.base = kwargs.get("base") or kwargs.get("BASE", None)
+        self.connection_string = kwargs['CONNECTION_STRING']
+        self.encoding = kwargs.get("ENCODING", 'utf-8')
+        self.pool_size = kwargs.get("POOL_SIZE", 10)
+        self.max_overflow = kwargs.get("MAX_OVERFLOW", 20)
+        self.pool_recycle = kwargs.get("POOL_RECYCLE", 3600)
+        self.base = kwargs.get("BASE", None)
+        self.logger = kwargs.get("logger", None)
 
         self._engine = None
         self._session = None
@@ -52,7 +49,8 @@ class Crud:
                 if not inspect(self.engine).has_table(key):
                     self.base.metadata.create_all(self.engine)
         except Exception:
-            report.critical(format_exc())
+            if self.logger:
+                self.logger.critical(format_exc())
 
     def insert(self,
                instances,
@@ -64,7 +62,8 @@ class Crud:
                 self.session.refresh(instances)
             return instances
         except Exception:
-            report.warning(format_exc())
+            if self.logger:
+                self.logger.warning(format_exc())
             self.session.rollback()
             raise
 
@@ -76,7 +75,8 @@ class Crud:
         try:
             return self.session.commit()
         except Exception:
-            report.warning(format_exc())
+            if self.logger:
+                self.logger.warning(format_exc())
             self.session.rollback()
             raise
 
@@ -112,21 +112,19 @@ class Crud:
     #     self.close_session()
     #     self.close_all_connections()
     #
-    # def close_session(self):
-    #     try:
-    #         self.session.close()
-    #     except Exception:
-    #         print(format_exc())
-    #     else:
-    #         self.session = None
-    #
-    # def close_all_connections(self):
-    #     try:
-    #         self.engine.dispose()
-    #     except Exception:
-    #         print(format_exc())
-    #     else:
-    #         self.engine = None
+    def close_session(self):
+        try:
+            self._session.close()
+        except Exception:
+            if self.logger:
+                self.logger(format_exc())
+
+    def close_all_connections(self):
+        try:
+            self.engine.dispose()
+        except Exception:
+            if self.logger:
+                self.logger(format_exc())
 
 
 def crud_creator(**kwargs):

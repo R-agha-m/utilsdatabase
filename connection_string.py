@@ -1,9 +1,10 @@
-def create_connection_string(type_,
-                             name,
-                             username=None,
-                             password=None,
-                             host=None,
-                             port=None):
+def create_connection_string(**kwargs):
+    type_ = kwargs.get("type_") or kwargs.get("type") or kwargs["TYPE"]
+    name = kwargs.get("name") or kwargs["NAME"]
+    username = kwargs.get("username") or kwargs["USERNAME"]
+    password = kwargs.get("password") or kwargs["PASSWORD"]
+    host = kwargs.get("host") or kwargs["HOST"]
+    port = kwargs.get("port") or kwargs["PORT"]
 
     # dialect+driver://username:password@host:port/database
     connection_string = f'://{username}:{password}@{host}:{port}/{name}'
@@ -21,4 +22,8 @@ def create_connection_string(type_,
 
     elif type_ in ("sqlite", 'sqlite3'):
         # sqlite://<nohostname>/<path>
-        return f'sqlite:///{name}.sqlite3'
+        connection_string = f'sqlite:///{name}'
+        if connection_string.lower().endswith(("sqlite", "sqlite3",)):
+            return connection_string
+        else:
+            return connection_string + ".sqlite3"
