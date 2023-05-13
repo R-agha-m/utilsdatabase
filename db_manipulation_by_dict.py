@@ -3,8 +3,32 @@ from sqlalchemy.exc import PendingRollbackError
 
 def db_manipulation_by_dict(data,
                             crud):
+    """ example of data
+    data = (
+                {'table': Request,
+                 'filter': (or_(Request.request == request,
+                                Request.id_2_crawl == id_2_crawl),),
+                 "action": 'delete'},
+
+                {'table': Channel,
+                 'filter': (Channel.youtube_id == id_2_crawl,),
+                 "action": 'delete'},
+
+                {'table': RequestChild,
+                 'filter': (or_(RequestChild.request == request,
+                                RequestChild.child_id == id_2_crawl),),
+                 "action": 'delete'},
+
+                {'table': Request,
+                 'key_values': {"request": request,
+                                "id_2_crawl": id_2_crawl,
+                                "task": task},
+                 "action": 'create'},
+             )"""
     added_data_2_db = list()
     for data_i in data:
+        obj = None
+
         try:
             obj = core(data_i,
                        crud)
@@ -33,26 +57,3 @@ def core(data_i,
 
     else:
         raise ValueError("Wrong action!")
-
-# example of data
-# data_4_db_preparation = (
-#             {'table': Request,
-#              'filter': (or_(Request.request == request,
-#                             Request.id_2_crawl == id_2_crawl),),
-#              "action": 'delete'},
-#
-#             {'table': Channel,
-#              'filter': (Channel.youtube_id == id_2_crawl,),
-#              "action": 'delete'},
-#
-#             {'table': RequestChild,
-#              'filter': (or_(RequestChild.request == request,
-#                             RequestChild.child_id == id_2_crawl),),
-#              "action": 'delete'},
-#
-#             {'table': Request,
-#              'key_values': {"request": request,
-#                             "id_2_crawl": id_2_crawl,
-#                             "task": task},
-#              "action": 'create'},
-#         )
