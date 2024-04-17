@@ -8,7 +8,7 @@ from beanie import Document
 from .fetch_one_by_filter import fetch_one_by_filter
 
 
-async def update_by_filter(
+async def update_one_by_filter(
         document: Type[Document],
         filter_: Dict,
         inputs: dict,

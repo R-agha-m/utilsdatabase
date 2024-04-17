@@ -56,5 +56,5 @@ async def fetch_list_by_filter_with_pagination(
             "current": current_page,
             "page_size": page_size
         },
-        "list": result
+        "data": result
     }

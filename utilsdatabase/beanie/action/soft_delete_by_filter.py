@@ -7,7 +7,7 @@ from datetime import datetime
 
 from beanie import Document
 
-from .update_by_filter import update_by_filter
+from .update_one_by_filter import update_one_by_filter
 
 
 async def soft_delete_by_filter(
@@ -15,7 +15,7 @@ async def soft_delete_by_filter(
         filter_: Dict,
         fetch_links: bool = False,
 ) -> Document:
-    return await update_by_filter(
+    return await update_one_by_filter(
         document=document,
         filter_=filter_,
         inputs={
