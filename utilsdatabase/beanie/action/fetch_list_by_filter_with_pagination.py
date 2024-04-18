@@ -1,5 +1,4 @@
 from typing import (
-    List,
     Type,
     Dict,
     Optional,
@@ -54,7 +53,7 @@ async def fetch_list_by_filter_with_pagination(
         "pagination": {
             "total": count,
             "current": current_page,
-            "page_size": page_size
+            "page_size": page_size or count
         },
         "data": result
     }
