@@ -3,7 +3,7 @@ from typing import Type
 from beanie import Document
 
 
-async def insert(
+async def insert_one(
         document: Type[Document],
         inputs: dict,
 ) -> Document:

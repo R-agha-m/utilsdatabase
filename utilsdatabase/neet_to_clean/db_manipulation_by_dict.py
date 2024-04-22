@@ -52,7 +52,7 @@ def core(data_i,
 
     elif data_i['action'] in ('create', 'insert',):
         obj = data_i['table'](**data_i['key_values'])
-        crud.insert(obj)
+        crud.insert_one(obj)
         return obj
 
     else:

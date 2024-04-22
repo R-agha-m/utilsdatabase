@@ -6,12 +6,14 @@ from typing import (
 from beanie import Document
 
 
-async def hard_delete_by_filter(
+async def update_one_by_filter_no_return(
         document: Type[Document],
         filter_: Dict,
+        inputs: dict,
         fetch_links: bool = False,
-) -> None:
+) -> Document:
+    """This function do not return the updated obj. Only update result will be returned!"""
     return await document.find_one(
         filter_,
         fetch_links=fetch_links,
-    ).delete()
+    ).update({"$set": inputs})

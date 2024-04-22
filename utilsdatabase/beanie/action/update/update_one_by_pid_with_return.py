@@ -1,23 +1,20 @@
-from typing import (
-    Type,
-    Dict,
-)
+from typing import Type
 
 from beanie import Document
 
-from .fetch_one_by_filter import fetch_one_by_filter
 
-
-async def update_one_by_filter(
+async def update_one_by_pid_with_return(
         document: Type[Document],
-        filter_: Dict,
+        pid: int,
         inputs: dict,
         fetch_links: bool = False,
 ) -> Document:
-    obj = await fetch_one_by_filter(
-        document=document,
-        filter_=filter_,
+    obj = await document.find_one(
+        {'pid': pid},
+        projection_model=None,
         fetch_links=fetch_links,
+        limit=1,
+        sort=None,
     )
 
     for attr, value in inputs.items():

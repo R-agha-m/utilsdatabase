@@ -18,6 +18,7 @@ async def is_item_exist(
 
     if result:
         return True
+
     else:
         if raise_on_absence:
             raise ProjectBaseException(**exception_input)

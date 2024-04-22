@@ -3,7 +3,7 @@ from typing import Type
 from beanie import Document
 
 
-async def update_by_obj(
+async def update_one_by_obj(
         obj: Type[Document],
         inputs: dict,
 ) -> Type[Document]:

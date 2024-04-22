@@ -5,18 +5,13 @@ from beanie import (
     Document,
 )
 
-from .fetch_by_id import fetch_by_id
 
-
-async def update_by_id(
+async def update_one_by_id_with_return(
         document: Type[Document],
         id_: PydanticObjectId,
         inputs: dict,
 ) -> Document:
-    obj = await fetch_by_id(
-        document=document,
-        id_=id_,
-    )
+    obj = await document.get(document_id=id_)
 
     for attr, value in inputs.items():
         setattr(obj, attr, value)

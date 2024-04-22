@@ -5,11 +5,11 @@ from typing import (
 
 from beanie import Document
 
-from ..enum import EnumOrderBy
-from .fetch_list_by_filter import fetch_list_by_filter
+from utilsdatabase.utilsdatabase.beanie.enum import EnumOrderBy
+from utilsdatabase.utilsdatabase.beanie.action.fetch.fetch_list_by_filter import fetch_list_by_filter
 
 
-async def update_list_by_filter_one_by_one(
+async def update_list_by_filter_with_return(
         document: Type[Document],
         filter_: Dict,
         inputs: dict,
@@ -21,7 +21,6 @@ async def update_list_by_filter_one_by_one(
     objs = await fetch_list_by_filter(
         document=document,
         filter_=filter_,
-        aggregate=None,
         current_page=current_page,
         page_size=page_size,
         order_by=order_by,

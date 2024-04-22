@@ -6,7 +6,7 @@ from beanie import (
 )
 
 
-async def fetch_by_id(
+async def fetch_one_by_id(
         document: Type[Document],
         id_: PydanticObjectId,
 ) -> Document:

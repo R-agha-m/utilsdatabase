@@ -9,7 +9,7 @@ def insert_or_update_row(table,
 
     if obj is None:
         obj = table(**data_2_save)
-        crud.insert(obj)
+        crud.insert_one(obj)
     else:
         for key, value in data_2_save.items():
             if getattr(obj, key) != value:
