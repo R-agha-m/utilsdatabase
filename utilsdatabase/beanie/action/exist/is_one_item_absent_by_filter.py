@@ -4,7 +4,7 @@ from beanie import Document
 from utilscommon.utilscommon.exception.project_base_exception import ProjectBaseException
 
 
-async def is_item_absent(
+async def is_one_item_absent_by_filter(
         document: Type[Document],
         filter_: dict,
         fetch_links: bool = False,
