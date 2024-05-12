@@ -1,10 +1,10 @@
 def create_connection_string_mongodb(config):
-    host = getattr(config, 'host')
-    port = getattr(config, 'port')
-    database = getattr(config, 'database', None)
-    username = getattr(config, 'username', None)
-    password = getattr(config, 'password', None)
-    authdb = getattr(config, 'authdb', None)
+    host = getattr(config, 'HOST')
+    port = getattr(config, 'PORT')
+    database = getattr(config, 'DATABASE', None)
+    username = getattr(config, 'USERNAME', None)
+    password = getattr(config, 'PASSWORD', None)
+    authdb = getattr(config, 'AUTHDB', None)
 
     connection_string = "mongodb://"
 
