@@ -4,7 +4,7 @@ from beanie import Document
 
 
 async def update_one_by_obj(
-        obj: Type[Document],
+        obj: Type[Document] | Document,
         inputs: dict,
 ) -> Type[Document]:
     for attr, value in inputs.items():
