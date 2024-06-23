@@ -8,7 +8,7 @@ from beanie import (
 sort = [("pid", SortDirection.DESCENDING)]
 
 
-async def calculate_pid(document: Type[Document]) -> int:
+async def calculate_incremental_pid(document: Type[Document]) -> int:
     result = await document.find_many(
         {},
         sort=sort,
