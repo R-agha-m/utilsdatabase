@@ -1,5 +1,5 @@
 try:
-    from utilsfastapi import logo
+    from utilsdatabase import logo
 
 except ImportError:
-    from utilsfastapi.utilsfastapi import logo
+    from utilsdatabase.utilsdatabase import logo
