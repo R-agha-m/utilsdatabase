@@ -1,3 +1,6 @@
+from re import escape
+
+
 def prepare_filter_for_regex_fields(
         fields_names: tuple[str, ...],
         inputs: dict,
@@ -9,7 +12,7 @@ def prepare_filter_for_regex_fields(
             for i in set(inputs[field_name]):
                 subsubfilter = list()
                 for j in i.split(" "):
-                    subsubfilter.append({field_name: {'$regex': j}})
+                    subsubfilter.append({field_name: {'$regex': escape(j)}})
 
                 if len(subsubfilter) > 1:
                     subfilter.append({'$and': subsubfilter})
