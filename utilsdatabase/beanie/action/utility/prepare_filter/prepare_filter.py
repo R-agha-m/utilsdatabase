@@ -6,7 +6,7 @@ from typing import (
 # from .prepare_filter_for_boolean_fields import prepare_filter_for_boolean_fields
 from .prepare_filter_for_regex_fields import prepare_filter_for_regex_fields
 # from .prepare_filter_for_has_value_fields import prepare_filter_for_boolean_fields
-from .prepare_filter_for_datetime_fields import prepare_filter_for_datetime_fields
+from .prepare_filter_for_range_fields import prepare_filter_for_range_fields
 from .prepare_filter_for_in_fields import prepare_filter_for_in_fields
 from .prepare_filter_for_search_field import prepare_filter_for_search_field
 
@@ -14,7 +14,7 @@ from .prepare_filter_for_search_field import prepare_filter_for_search_field
 def prepare_filter(
         inputs: Dict,
         fields_names_for_regex: Tuple[str, ...] = tuple(),
-        fields_names_for_datetime: Tuple[str, ...] = tuple(),
+        fields_names_for_range: Tuple[str, ...] = tuple(),
         fields_names_for_in: Tuple[str, ...] = tuple(),
         search_field_name: str = None,
         fields_names_for_search: Tuple[str, ...] = tuple(),
@@ -28,9 +28,9 @@ def prepare_filter(
             filter_=filter_,
         )
 
-    if fields_names_for_datetime:
-        prepare_filter_for_datetime_fields(
-            fields_names=fields_names_for_datetime,
+    if fields_names_for_range:
+        prepare_filter_for_range_fields(
+            fields_names=fields_names_for_range,
             inputs=inputs,
             filter_=filter_,
         )

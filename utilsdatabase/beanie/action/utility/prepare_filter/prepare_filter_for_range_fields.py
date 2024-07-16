@@ -1,4 +1,4 @@
-def prepare_filter_for_datetime_fields(
+def prepare_filter_for_range_fields(
         fields_names: tuple[str, ...],
         inputs: dict,
         filter_: list,
