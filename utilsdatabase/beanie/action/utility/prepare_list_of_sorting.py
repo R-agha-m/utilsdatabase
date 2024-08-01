@@ -4,7 +4,7 @@ from typing import (
 )
 
 from beanie import SortDirection
-from utilsdatabase.utilsdatabase.beanie.enum import EnumOrderBy
+from utilsdatabase.beanie.enum import EnumOrderBy
 
 ASCENDING = SortDirection.ASCENDING
 DESCENDING = SortDirection.DESCENDING

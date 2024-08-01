@@ -5,8 +5,8 @@ from typing import (
 
 from beanie import Document
 
-from utilsdatabase.utilsdatabase.beanie.enum import EnumOrderBy
-from utilsdatabase.utilsdatabase.beanie.action.fetch.fetch_list_by_filter import fetch_list_by_filter
+from utilsdatabase.beanie.enum import EnumOrderBy
+from utilsdatabase.beanie.action.fetch.fetch_list_by_filter import fetch_list_by_filter
 
 
 async def update_list_by_filter_with_return(

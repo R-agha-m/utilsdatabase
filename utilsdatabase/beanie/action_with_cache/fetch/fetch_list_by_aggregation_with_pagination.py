@@ -10,9 +10,9 @@ from beanie import (
     SortDirection,
 )
 from pydantic import BaseModel
-from utilsdatabase.utilsdatabase.beanie.enum import EnumOrderBy
-from utilsdatabase.utilsdatabase.beanie.action.utility.prepare_list_of_sorting import prepare_list_of_sorting
-from utilsdatabase.utilsdatabase.beanie.action.utility.prepare_skip_limit_for_aggregation import \
+from utilsdatabase.beanie.enum import EnumOrderBy
+from utilsdatabase.beanie.action.utility.prepare_list_of_sorting import prepare_list_of_sorting
+from utilsdatabase.beanie.action.utility.prepare_skip_limit_for_aggregation import \
     prepare_skip_limit_for_aggregation
 
 

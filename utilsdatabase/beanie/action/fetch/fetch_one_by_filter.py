@@ -13,8 +13,8 @@ from beanie import (
 )
 from pydantic import BaseModel
 
-from utilsdatabase.utilsdatabase.beanie.enum import EnumOrderBy
-from utilsdatabase.utilsdatabase.beanie.action.utility.prepare_list_of_sorting import prepare_list_of_sorting
+from utilsdatabase.beanie.enum import EnumOrderBy
+from utilsdatabase.beanie.action.utility.prepare_list_of_sorting import prepare_list_of_sorting
 
 
 async def fetch_one_by_filter(

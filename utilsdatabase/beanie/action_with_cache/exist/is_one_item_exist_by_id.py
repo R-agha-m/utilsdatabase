@@ -4,7 +4,7 @@ from beanie import (
     Document,
     PydanticObjectId,
 )
-from utilscommon.utilscommon.exception.project_base_exception import ProjectBaseException
+from utilscommon.exception.project_base_exception import ProjectBaseException
 
 
 async def is_one_item_exist_by_id(
