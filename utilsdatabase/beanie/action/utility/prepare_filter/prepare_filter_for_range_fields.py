@@ -12,7 +12,7 @@ def prepare_filter_for_range_fields(
             sub_filter['$gte'] = inputs[from_]
 
         if inputs.get(to) is not None:
-            sub_filter['$lte'] = inputs[to]
+            sub_filter['$lt'] = inputs[to]
 
         if sub_filter:
             filter_.append({field_name: sub_filter})

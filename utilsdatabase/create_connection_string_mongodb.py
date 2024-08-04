@@ -1,3 +1,6 @@
+from urllib.parse import quote_plus
+
+
 def create_connection_string_mongodb(config):
     host = getattr(config, 'HOST')
     port = getattr(config, 'PORT')
@@ -9,7 +12,8 @@ def create_connection_string_mongodb(config):
     connection_string = "mongodb://"
 
     if username:
-        connection_string += f"{username}:{password}@"
+
+        connection_string += f"{quote_plus(username)}:{quote_plus(password)}@"
 
     connection_string += f"{host}:{port}/"
 
