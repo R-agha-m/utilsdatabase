@@ -6,8 +6,8 @@ from typing import (
 from beanie import SortDirection
 from utilsdatabase.beanie.enum import EnumOrderBy
 
-ASCENDING = SortDirection.ASCENDING
-DESCENDING = SortDirection.DESCENDING
+ASCENDING = SortDirection.ASCENDING.value
+DESCENDING = SortDirection.DESCENDING.value
 
 
 def prepare_list_of_sorting(order_by: Dict[str, EnumOrderBy] | None = None) -> List:
