@@ -19,7 +19,7 @@ from utilsdatabase.beanie.action.utility.prepare_list_of_sorting import prepare_
 
 async def fetch_one_by_pid(
         document: Type[Document],
-        pid: int,
+        pid: int | str,
         project_model: Optional[Type[BaseModel]] = None,
         fetch_links: bool = False,
         skip: Optional[int] = None,
