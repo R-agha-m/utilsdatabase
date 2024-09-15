@@ -5,7 +5,7 @@ from beanie import Document
 
 async def update_one_by_pid_with_return(
         document: Type[Document],
-        pid: int,
+        pid: str,
         inputs: dict,
         fetch_links: bool = False,
 ) -> Document:

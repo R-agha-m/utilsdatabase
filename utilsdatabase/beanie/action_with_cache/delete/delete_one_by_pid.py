@@ -5,7 +5,7 @@ from beanie import Document
 
 async def delete_one_by_pid(
         document: Type[Document],
-        pid: int,
+        pid: str,
 ) -> None:
     return await document.find_one(
         {"pid": pid},

@@ -137,7 +137,7 @@ if ! git tag "$newVersion"; then
 fi
 
 # List all tags to confirm the new one has been created
-git tag
+git --no-pager tag
 
 # Push the changes and the new tag to the remotes
 for remote in "${!remotes[@]}"; do

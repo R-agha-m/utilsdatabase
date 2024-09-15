@@ -6,7 +6,7 @@ from utilscommon.exception.project_base_exception import ProjectBaseException
 
 async def is_one_item_exist_by_pid(
         document: Type[Document],
-        pid: int,
+        pid: str,
         raise_on_absence: bool = False,
         exception_input: dict = dict(),  # noqa
 ) -> bool:
