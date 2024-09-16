@@ -50,7 +50,11 @@ def prepare_filter(
             filter_=filter_,
         )
 
-    if filter_:
-        return {'$and': filter_}
-    else:
+    if len(filter_) == 0:
         return dict()
+
+    elif len(filter_) == 1:
+        return filter_[0]
+
+    else:
+        return {'$and': filter_}

@@ -18,7 +18,10 @@ def prepare_filter_for_aggregation(
     last_filter_inputs = dict()
     for key, value in inputs.items():
         if value:
-            if "__" in key:
+            if key == search_field_name:
+                last_filter_inputs[key] = value
+
+            elif "__" in key:
                 if key.startswith("__") or key.endswith("__"):
                     last_filter_inputs[key.replace('__', "")] = value  # use for non nested fields like count or
                     # average
@@ -33,8 +36,6 @@ def prepare_filter_for_aggregation(
         fields_names_for_regex=fields_names_for_regex,
         fields_names_for_range=fields_names_for_range,
         fields_names_for_in=fields_names_for_in,
-        search_field_name=search_field_name,
-        fields_names_for_search=fields_names_for_search,
     )
 
     last_filter = prepare_filter(
